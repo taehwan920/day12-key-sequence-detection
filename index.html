@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Key Detection</title>
   <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
 </head>
+
 <body>
-<script>
-</script>
+  <script>
+    const pressed = [];
+    const secretCode = 'wesbos';
+    window.addEventListener('keyup', (e) => {
+      console.log(e.key);
+      pressed.push(e.key);
+      console.log(pressed)
+      pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+      // splice(a, b)는 a위치에서부터 인덱스가 a + b인 요소까지 지우는 것. 만약 b가 a + 1이라면 배열[a] 부분만 배열에서 삭제된다.
+      // 위의 코드는 secretCode의 길이값을 음수로 만들고 거기서 1을 빼서, 지금의 경우 -7이 된다. 그리고 pressed의 길이에서 secretCode의 길이를 뺀만큼 지우는 것.
+      // secretCode의 길이인 6까지는 배열에 계속 요소가 추가되는데, 여기서 키를 한번 더 누르는 순간 pressed배열은 길이가 7이 되고, pressed.splice(-6 - 1, 7 - 6) => pressed.splice(-7, 1)이 된다.
+      // pressed가 7이 되어서야 splice가 작동해서 가장 먼저 들어온 요소가 빠져나가는 큐 형식의 자료구조가 생성된다.
+      // 이를 이용해 secretCode의 길이만큼 pressed 배열을 유지할 수 있다.
+      if (pressed.join('').includes(secretCode)) {
+        console.log('dododo');
+        cornify_add();
+      }
+      console.log(pressed);
+    })
+  </script>
 </body>
+
 </html>
